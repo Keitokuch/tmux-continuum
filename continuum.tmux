@@ -70,9 +70,10 @@ main() {
 		# overwrite each other.
 		if ! another_tmux_server_running; then
 			# give user a chance to restore previously saved session
-			delay_saving_environment_on_first_plugin_load
 			add_resurrect_save_interpolation
 		fi
+		#  always delay saving until bug located
+		delay_saving_environment_on_first_plugin_load
 
 		if just_started_tmux_server; then
 			start_auto_restore_in_background

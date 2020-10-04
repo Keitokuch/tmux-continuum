@@ -19,7 +19,7 @@ auto_save_not_disabled() {
 }
 
 enough_time_since_last_run_passed() {
-	local last_saved_timestamp="$(get_tmux_option "$last_auto_save_option" "0")"
+	local last_saved_timestamp="$(get_tmux_option "$last_auto_save_option" "$(current_timestamp)")"
 	local interval_minutes="$(get_interval)"
 	local interval_seconds="$((interval_minutes * 60))"
 	local next_run="$((last_saved_timestamp + $interval_seconds))"
@@ -54,6 +54,7 @@ acquire_lock() {
 
 main() {
 	if supported_tmux_version_ok && auto_save_not_disabled && enough_time_since_last_run_passed && acquire_lock; then
+		echo saved
 		fetch_and_run_tmux_resurrect_save_script
 	fi
 }
